@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Tibia
+Exec=tibia
+Icon=com.tibia.Tibia
+Terminal=false
+StartupNotify=false
+Categories=Game;
+X-PrefersNonDefaultGPU=true

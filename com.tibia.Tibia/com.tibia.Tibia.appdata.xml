@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>com.tibia.Tibia</id>
+  <name>Tibia</name>
+  <metadata_license>CC0-1.0</metadata_license>
+  <summary>Create your own world in one of the most popular video games</summary>
+  <description><p>Join people all over the world playing Tibia, one of the most popular videogames around! Your own imagination is the limit in this fun game where you get to build the world around you. Play with friends, or alone, as you adventure, gather, build, and battle in an incredible land of your very own. For the best experience, we recommend you create an account and purchase online at Tibia.net/en-us/store before installing this app. ** Requires internet.</p><p>NOTE: This wrapper is not verified by, affiliated with, or supported by Mojang or Microsoft.</p></description>
+  <url type="homepage">https://tibia.com</url>
+  <launchable type="desktop-id">com.tibia.Tibia.desktop</launchable>
+  <project_license>LicenseRef-proprietary</project_license>
+  <developer_name>Cipsoft GmbH</developer_name>
+  <releases>
+    <release version="13.05.12694" date="2022-10-25"/>
+    <release version="13.05.12657" date="2022-10-14"/>
+    <release version="13.05.12613" date="2022-10-11"/>
+    <release version="13.05.12569" date="2022-10-05"/>
+    <release version="13.00.12539" date="2022-09-27"/>
+    <release version="13.00.12534" date="2022-09-27"/>
+    <release version="13.00.12529" date="2022-09-27"/>
+    <release version="12.91.12383" date="2022-09-08"/>
+    <release version="12.91.12329" date="2022-08-23"/>
+    <release version="12.90.12248" date="2022-08-02"/>
+  </releases>
+</component>
