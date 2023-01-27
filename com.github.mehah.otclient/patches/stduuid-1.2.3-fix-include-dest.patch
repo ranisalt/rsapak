@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 736cc7c1..044d8ff1 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -52,7 +52,7 @@
+
+ if(UUID_ENABLE_INSTALL)
+     # Install step and imported target
+-    install(FILES include/uuid.h DESTINATION include)
++    install(FILES include/uuid.h DESTINATION include/stduuid)
+     install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}-targets)
+     install(EXPORT ${PROJECT_NAME}-targets
+             DESTINATION lib/cmake/${PROJECT_NAME})
