@@ -72,9 +72,7 @@ modules:
 
         build-commands:
           - install -Dm755 -t ${FLATPAK_DEST}/bin install-tibia-maps
-          - sed -i -e '/TIBIA_DIR/ s|${HOME}/.local/share|${XDG_DATA_HOME}|' ${FLATPAK_DEST}/bin/install-tibia-maps
 
         sources:
-          - type: file
-            url: https://raw.githubusercontent.com/tibiamaps/tibia-maps-installer-linux/main/install-tibia-maps
-            sha256: 5b6ef945e871b48543e63d6a6cb1d3d322c7962718d5ab8f5323d3e90abc03e1
+          - type: git
+            url: https://github.com/tibiamaps/tibia-maps-installer-linux.git
