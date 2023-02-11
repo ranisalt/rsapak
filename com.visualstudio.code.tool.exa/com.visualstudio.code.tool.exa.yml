@@ -1,0 +1,55 @@
+id: com.visualstudio.code.tool.exa
+branch: "22.08"
+build-extension: true
+sdk: org.freedesktop.Sdk//22.08
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.rust-stable
+runtime: com.visualstudio.code
+runtime-version: stable
+separate-locales: false
+appstream-compose: false
+
+build-options:
+  append-path: /usr/lib/sdk/rust-stable/bin
+  prefix: /app/tools/exa
+  strip: true
+
+cleanup:
+  - "*.a"
+  - "*.la"
+  - /share/man
+
+modules:
+  - name: exa
+    buildsystem: simple
+
+    build-commands:
+      - cargo install --path . --root ${FLATPAK_DEST}
+
+    build-options:
+      build-args:
+        - --share=network
+
+    sources:
+      - type: archive
+        url: https://crates.io/api/v1/crates/exa/0.10.1/download
+        archive-type: tar-gzip
+        sha256: 04b8049a14b743985f26184c67f2f41f8b17268af0e2e7790facdb25b0e2a7b5
+
+        x-checker-data:
+          type: json
+          url: https://crates.io/api/v1/crates/exa/versions
+          version-query: .versions[0].num
+          url-query: .versions[0].dl_path | "https://crates.io" + .
+          timestamp-query: .versions[0].created_at
+
+  - name: bundle-setup
+    buildsystem: simple
+
+    build-commands:
+      - install -Dm644 ${FLATPAK_ID}.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo
+      - appstream-compose --basename=${FLATPAK_ID} --prefix=${FLATPAK_DEST} --origin=flatpak ${FLATPAK_ID}
+
+    sources:
+      - type: file
+        path: com.visualstudio.code.tool.exa.metainfo.xml

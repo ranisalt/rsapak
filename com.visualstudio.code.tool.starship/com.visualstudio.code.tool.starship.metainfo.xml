@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="runtime">
+  <id>com.visualstudio.code.tool.starship</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>ISC</project_license>
+  <name>starship</name>
+  <summary>The minimal, blazing-fast, and infinitely customizable prompt for any shell!</summary>
+  <url type="homepage">https://starship.rs</url>
+  <releases>
+    <release version="1.12.0" date="2022-12-13"/>
+  </releases>
+</component>
