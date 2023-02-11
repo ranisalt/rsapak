@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=OTClient
-Exec=otclient
-Icon=com.github.mehah.otclient
-Terminal=false
-StartupNotify=false
-Categories=Game;
-X-PrefersNonDefaultGPU=true
