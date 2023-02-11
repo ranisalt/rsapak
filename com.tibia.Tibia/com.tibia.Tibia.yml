@@ -25,17 +25,16 @@ modules:
     build-commands:
       - install -d ${FLATPAK_DEST}/share/tibia
       - install -Dm755 -t ${FLATPAK_DEST}/bin tibia
-      - install -Dm755 -t ${FLATPAK_DEST}/share/tibia Tibia
+      - sed -i -e '/TIBIA_DIR/ s|${HOME}/.local/share|${XDG_DATA_HOME}|' ${FLATPAK_DEST}/bin/install-tibia-maps
       - install -Dm644 -t ${FLATPAK_DEST}/share/appdata com.tibia.Tibia.appdata.xml
       - install -Dm644 -t ${FLATPAK_DEST}/share/applications com.tibia.Tibia.desktop
       - install -Dm644 -t ${FLATPAK_DEST}/share/icons/hicolor/256x256/apps com.tibia.Tibia.png
+      - tar xf tibia.x64.tar.gz --directory ${FLATPAK_DEST}/share/tibia --strip-components 1
       - touch ${FLATPAK_DEST}/share/tibia/partial-package.json
 
     sources:
-      - type: archive
-        # url: https://static.tibia.com/download/tibia.x64.tar.gz
+      - type: file
         path: tibia.x64.tar.gz
-        sha256: 8449e7e7138d178cebd44ca9acc01f82c17683cb0e5767025ab6a59b11c091be # TIBIA_TAR_GZ_CHECKSUM
 
       - type: file
         path: com.tibia.Tibia.appdata.xml
@@ -54,7 +53,6 @@ modules:
     modules:
       - name: ipchanger
         buildsystem: simple
-
         build-commands:
           - install -Dm755 -t ${FLATPAK_DEST}/bin ipchanger
 

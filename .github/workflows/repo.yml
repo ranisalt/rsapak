@@ -28,9 +28,6 @@ jobs:
         gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
 
-    - name: run prebuild scripts
-      run: find -name prebuild.sh -execdir sh -x prebuild.sh \;
-
     - name: build packages
       run: find -name '*.appdata.xml' -execdir sh -c 'flatpak-builder --gpg-sign=DDACB75F4CC38E0B33FDAB43507CDE7678C283D4 --install-deps-from=flathub --repo=${{ github.workspace }}/repo --user build $(basename $PWD).yml' \;
 
@@ -41,8 +38,6 @@ jobs:
       uses: crazy-max/ghaction-github-pages@v3
       if: ${{ github.ref == 'refs/heads/main' }}
       with:
-        allow_empty_commit: false
         build_dir: repo
-        keep_history: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
