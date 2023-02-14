@@ -29,7 +29,7 @@ jobs:
         passphrase: ${{ secrets.PASSPHRASE }}
 
     - name: build packages
-      run: find -name '*.appdata.xml' -execdir sh -c 'flatpak-builder --gpg-sign=DDACB75F4CC38E0B33FDAB43507CDE7678C283D4 --install-deps-from=flathub --repo=${{ github.workspace }}/repo --user build $(basename $PWD).yml' \;
+      run: find \( -name '*.appdata.xml' -o -name '*.metainfo.xml' \) -execdir sh -c 'flatpak-builder --gpg-sign=DDACB75F4CC38E0B33FDAB43507CDE7678C283D4 --install-deps-from=flathub --repo=${{ github.workspace }}/repo --user build $(basename $PWD).yml' \;
 
     - name: copy static files
       run: install -Dt ${{ github.workspace }}/repo rsapak.flatpakrepo
