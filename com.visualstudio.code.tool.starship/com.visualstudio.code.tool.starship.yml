@@ -10,8 +10,6 @@ separate-locales: false
 appstream-compose: false
 
 build-options:
-  append-path: /usr/lib/sdk/rust-stable/bin
-  prefix: /app/tools/starship
   strip: true
 
 cleanup:
@@ -24,11 +22,14 @@ modules:
     buildsystem: simple
 
     build-commands:
-      - cargo install --path . --root ${FLATPAK_DEST}
+      - cargo --offline fetch --manifest-path Cargo.toml --verbose
+      - cargo --offline build --release --verbose
+      - install -Dm755 -t ${FLATPAK_DEST}/bin target/release/starship
 
     build-options:
-      build-args:
-        - --share=network
+      append-path: /usr/lib/sdk/rust-stable/bin
+      env:
+        CARGO_HOME: /run/build/starship/cargo
 
     sources:
       - type: archive
@@ -42,6 +43,8 @@ modules:
           version-query: .versions[0].num
           url-query: .versions[0].dl_path | "https://crates.io" + .
           timestamp-query: .versions[0].created_at
+
+      - cargo-sources.json
 
   - name: bundle-setup
     buildsystem: simple
