@@ -9,28 +9,23 @@ runtime-version: stable
 separate-locales: false
 appstream-compose: false
 
-build-options:
-  append-path: /usr/lib/sdk/golang/bin
-  prefix: /app/tools/git-lfs
-  strip: true
-
-cleanup:
-  - '*.a'
-  - '*.la'
-  - /share/man
-
 modules:
   - name: git-lfs
     buildsystem: simple
 
     build-options:
+      append-path: /usr/lib/sdk/golang/bin
+      # uncomment when generating vendor-sources.json
+      # build-args:
+      #   - --share=network
       env:
         GO111MODULE: on
         GOFLAGS: -mod=vendor
 
     build-commands:
-      - make
-      - install -Dm755 -t ${FLATPAK_DEST}/bin bin/git-lfs
+      # - go mod vendor # uncomment when generating vendor-sources.json
+      - go build
+      - install -Dm755 -t ${FLATPAK_DEST}/bin git-lfs
 
     sources:
       - type: git
@@ -42,13 +37,14 @@ modules:
           type: git
           tag-pattern: ^v([\d.]+)$
 
+      - vendor-sources.json
+
   - name: bundle-setup
     buildsystem: simple
 
     build-commands:
       - install -Dm644 ${FLATPAK_ID}.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo
-      - appstream-compose --basename=${FLATPAK_ID} --prefix=${FLATPAK_DEST} --origin=flatpak
-        ${FLATPAK_ID}
+      - appstream-compose --basename=${FLATPAK_ID} --prefix=${FLATPAK_DEST} --origin=flatpak ${FLATPAK_ID}
 
     sources:
       - type: file
