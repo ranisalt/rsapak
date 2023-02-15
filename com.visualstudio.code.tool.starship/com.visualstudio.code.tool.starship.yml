@@ -9,14 +9,6 @@ runtime-version: stable
 separate-locales: false
 appstream-compose: false
 
-build-options:
-  strip: true
-
-cleanup:
-  - "*.a"
-  - "*.la"
-  - /share/man
-
 modules:
   - name: starship
     buildsystem: simple
