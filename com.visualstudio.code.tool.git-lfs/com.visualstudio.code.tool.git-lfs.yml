@@ -29,7 +29,8 @@ modules:
         GOFLAGS: -mod=vendor
 
     build-commands:
-      - go build -v -o ${FLATPAK_DEST}/bin/git-lfs ./git-lfs.go
+      - make
+      - install -Dm755 -t ${FLATPAK_DEST}/bin bin/git-lfs
 
     sources:
       - type: git
