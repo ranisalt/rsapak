@@ -1,0 +1,38 @@
+id: com.tibia.Tibia.Utility.tibiamaps
+runtime: com.tibia.Tibia
+runtime-version: stable
+sdk: org.freedesktop.Sdk//22.08
+build-extension: true
+appstream-compose: false
+
+build-options:
+  prefix: /app/utils/tibiamaps
+  prepend-path: /app/utils/tibiamaps/bin
+
+modules:
+  - name: tibia-maps
+    buildsystem: simple
+
+    build-commands:
+      - install -Dm755 -t ${FLATPAK_DEST}/bin install-tibia-maps
+
+    sources:
+      - type: git
+        url: https://github.com/tibiamaps/tibia-maps-installer-linux.git
+        branch: main
+
+        x-checker-data:
+          type: git
+          tag-pattern: ^([\d.]+)$
+          is-main-source: true
+
+  - name: metadata
+    buildsystem: simple
+
+    build-commands:
+      - install -Dm644 -t ${FLATPAK_DEST}/share/metainfo ${FLATPAK_ID}.metainfo.xml
+      - appstream-compose --basename=${FLATPAK_ID} --prefix=${FLATPAK_DEST} --origin=flatpak ${FLATPAK_ID}
+
+    sources:
+      - type: file
+        path: com.tibia.Tibia.Utility.tibiamaps.metainfo.xml

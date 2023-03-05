@@ -1,0 +1,40 @@
+id: com.tibia.Tibia.Utility.ipchanger
+runtime: com.tibia.Tibia
+runtime-version: stable
+sdk: org.freedesktop.Sdk//22.08
+build-extension: true
+appstream-compose: false
+
+build-options:
+  prefix: /app/utils/ipchanger
+  prepend-path: /app/utils/ipchanger/bin
+
+modules:
+  - name: ipchanger
+    buildsystem: simple
+
+    build-commands:
+      - install -Dm755 -t ${FLATPAK_DEST}/bin ipchanger
+
+    modules:
+      - python3-tibia-ipchanger.yaml
+
+    sources:
+      - type: script
+        dest-filename: ipchanger
+        commands:
+          - exec python3 -m ipchanger "$XDG_DATA_HOME/CipSoft GmbH/Tibia" $@
+
+    cleanup:
+      - /bin/readelf.py
+
+  - name: metadata
+    buildsystem: simple
+
+    build-commands:
+      - install -Dm644 -t ${FLATPAK_DEST}/share/metainfo ${FLATPAK_ID}.metainfo.xml
+      - appstream-compose --basename=${FLATPAK_ID} --prefix=${FLATPAK_DEST} --origin=flatpak ${FLATPAK_ID}
+
+    sources:
+      - type: file
+        path: com.tibia.Tibia.Utility.ipchanger.metainfo.xml

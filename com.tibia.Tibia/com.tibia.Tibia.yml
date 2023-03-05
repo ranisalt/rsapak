@@ -1,4 +1,5 @@
-app-id: com.tibia.Tibia
+id: com.tibia.Tibia
+branch: stable
 runtime: org.freedesktop.Platform
 runtime-version: '22.08'
 sdk: org.freedesktop.Sdk
@@ -14,21 +15,23 @@ finish-args:
   - --socket=pulseaudio # play sound with PulseAudio
   - --socket=x11 # show windows using X11
 
+add-extensions:
+  com.tibia.Tibia.Utility:
+    subdirectories: true
+    directory: utils
+    version: stable
+    add-ld-path: lib
+    merge-dirs: bin;lib;share
+    no-autodownload: true
+    autodelete: true
+
 modules:
   - name: tibia
     buildsystem: simple
 
-    build-options:
-      build-args:
-        - --share=network
-
     build-commands:
-      - install -d ${FLATPAK_DEST}/share/tibia
+      - install -d ${FLATPAK_DEST}/share/tibia ${FLATPAK_DEST}/utils
       - install -Dm755 -t ${FLATPAK_DEST}/bin tibia
-      - sed -i -e '/TIBIA_DIR/ s|${HOME}/.local/share|${XDG_DATA_HOME}|' ${FLATPAK_DEST}/bin/install-tibia-maps
-      - install -Dm644 -t ${FLATPAK_DEST}/share/appdata com.tibia.Tibia.appdata.xml
-      - install -Dm644 -t ${FLATPAK_DEST}/share/applications com.tibia.Tibia.desktop
-      - install -Dm644 -t ${FLATPAK_DEST}/share/icons/hicolor/256x256/apps com.tibia.Tibia.png
       - tar xf tibia.x64.tar.gz --directory ${FLATPAK_DEST}/share/tibia --strip-components 1
       - touch ${FLATPAK_DEST}/share/tibia/partial-package.json
 
@@ -36,6 +39,38 @@ modules:
       - type: file
         path: tibia.x64.tar.gz
 
+      - type: script
+        dest-filename: tibia
+        commands:
+          - exec /app/share/tibia/Tibia
+
+    modules:
+      - name: kerberos
+        subdir: src
+
+        sources:
+          - type: archive
+            url: https://kerberos.org/dist/krb5/1.20/krb5-1.20.tar.gz
+            sha256: 7e022bdd3c851830173f9faaa006a230a0e0fdad4c953e85bff4bf0da036e12f
+
+        cleanup:
+          - /bin
+          - /include
+          - /lib/debug
+          - /lib/pkgconfig
+          - /sbin
+          - /share
+
+  - name: metadata
+    buildsystem: simple
+
+    build-commands:
+      - install -Dm644 -t ${FLATPAK_DEST}/share/applications com.tibia.Tibia.desktop
+      - install -Dm644 -t ${FLATPAK_DEST}/share/icons/hicolor/256x256/apps com.tibia.Tibia.png
+      - install -Dm644 -t ${FLATPAK_DEST}/share/metainfo ${FLATPAK_ID}.appdata.xml
+      - appstream-compose --basename=${FLATPAK_ID} --prefix=${FLATPAK_DEST} --origin=flatpak ${FLATPAK_ID}
+
+    sources:
       - type: file
         path: com.tibia.Tibia.appdata.xml
 
@@ -44,34 +79,3 @@ modules:
 
       - type: file
         path: com.tibia.Tibia.png
-
-      - type: script
-        dest-filename: tibia
-        commands:
-          - exec /app/share/tibia/Tibia
-
-    modules:
-      - name: ipchanger
-        buildsystem: simple
-        build-commands:
-          - install -Dm755 -t ${FLATPAK_DEST}/bin ipchanger
-
-        modules:
-          - python3-tibia-ipchanger.yaml
-
-        sources:
-          - type: script
-            dest-filename: ipchanger
-            commands:
-              - exec python3 -m ipchanger "$XDG_DATA_HOME/CipSoft GmbH/Tibia" $@
-
-      - name: tibia-maps
-        buildsystem: simple
-
-        build-commands:
-          - install -Dm755 -t ${FLATPAK_DEST}/bin install-tibia-maps
-
-        sources:
-          - type: git
-            url: https://github.com/tibiamaps/tibia-maps-installer-linux.git
-            branch: main

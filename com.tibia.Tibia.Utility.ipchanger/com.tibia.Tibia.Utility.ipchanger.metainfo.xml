@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+  <id>com.tibia.Tibia.Utility.ipchanger</id>
+  <extends>com.tibia.Tibia</extends>
+  <name>ipchanger</name>
+  <metadata_license>CC0-1.0</metadata_license>
+  <summary>Command-line IP changer for Tibia clients</summary>
+  <url type="homepage">https://github.com/ranisalt/tibia-ipchanger</url>
+  <project_license>MIT</project_license>
+  <developer_name>Ranieri Althoff</developer_name>
+  <releases>
+    <release version="0.1.2" date="2022-08-14"/>
+    <release version="0.1.1" date="2022-04-23"/>
+  </releases>
+</component>

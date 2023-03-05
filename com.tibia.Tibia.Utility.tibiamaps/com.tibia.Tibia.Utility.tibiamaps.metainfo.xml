@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+  <id>com.tibia.Tibia.Utility.tibiamaps</id>
+  <extends>com.tibia.Tibia</extends>
+  <name>TibiaMaps</name>
+  <metadata_license>CC0-1.0</metadata_license>
+  <summary>Over 95% of Tibia map explored</summary>
+  <url type="homepage">https://tibiamaps.io</url>
+  <project_license>MIT</project_license>
+  <developer_name>Mathias Bynens</developer_name>
+</component>
