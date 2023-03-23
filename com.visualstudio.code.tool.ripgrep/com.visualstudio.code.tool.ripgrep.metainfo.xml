@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component type="runtime">
+<component type="addon">
   <id>com.visualstudio.code.tool.ripgrep</id>
+  <extends>com.visualstudio.code</extends>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>MIT</project_license>
   <name>ripgrep</name>
-  <summary>ripgrep recursively searches directories for a regex pattern while respecting your gitignore</summary>
-  <description>ripgrep is a line-oriented search tool that recursively searches the current directory for a regex pattern while respecting gitignore rules. ripgrep has first class support on Windows, macOS and Linux.</description>
+  <summary>ripgrep recursively searches directories for a regex pattern while respecting your
+    gitignore</summary>
+  <description>ripgrep is a line-oriented search tool that recursively searches the current
+    directory for a regex pattern while respecting gitignore rules. ripgrep has first class support
+    on Windows, macOS and Linux.</description>
   <releases>
-    <release version="13.0.0" date="2021-06-12"/>
+    <release version="13.0.0" date="2021-06-12" />
   </releases>
 </component>
