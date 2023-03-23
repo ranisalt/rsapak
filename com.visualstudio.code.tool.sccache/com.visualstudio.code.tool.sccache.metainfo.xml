@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+  <id>com.visualstudio.code.tool.sccache</id>
+  <extends>com.visualstudio.code</extends>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <name>sccache</name>
+  <summary>sccache is ccache with cloud storage</summary>
+  <description>Sccache is a ccache-like tool. It is used as a compiler wrapper and avoids
+    compilation when possible, storing a cache in a remote storage using the S3 API.</description>
+  <url type="homepage">https://github.com/mozilla/sccache</url>
+  <releases>
+    <release version="0.4.0" date="2023-03-21" />
+  </releases>
+</component>
