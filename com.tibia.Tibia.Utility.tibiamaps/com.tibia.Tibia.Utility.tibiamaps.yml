@@ -1,4 +1,5 @@
 id: com.tibia.Tibia.Utility.tibiamaps
+branch: stable
 runtime: com.tibia.Tibia
 runtime-version: stable
 sdk: org.freedesktop.Sdk//22.08

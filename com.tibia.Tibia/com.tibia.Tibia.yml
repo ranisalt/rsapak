@@ -19,7 +19,6 @@ add-extensions:
   com.tibia.Tibia.Utility:
     subdirectories: true
     directory: utils
-    version: stable
     add-ld-path: lib
     merge-dirs: bin;lib;share
     no-autodownload: true
@@ -68,7 +67,6 @@ modules:
       - install -Dm644 -t ${FLATPAK_DEST}/share/applications com.tibia.Tibia.desktop
       - install -Dm644 -t ${FLATPAK_DEST}/share/icons/hicolor/256x256/apps com.tibia.Tibia.png
       - install -Dm644 -t ${FLATPAK_DEST}/share/metainfo ${FLATPAK_ID}.appdata.xml
-      - appstream-compose --basename=${FLATPAK_ID} --prefix=${FLATPAK_DEST} --origin=flatpak ${FLATPAK_ID}
 
     sources:
       - type: file
