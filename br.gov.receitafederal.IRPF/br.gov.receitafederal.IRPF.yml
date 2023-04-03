@@ -1,0 +1,79 @@
+id: br.gov.receitafederal.IRPF
+branch: stable
+runtime: org.freedesktop.Platform
+runtime-version: "22.08"
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.openjdk17
+command: irpf
+tags:
+  - proprietary
+
+finish-args:
+  # - --device=dri # OpenGL rendering
+  - --persist=ProgramasRFB
+  # - --share=ipc # share IPC namespace with the host (necessary for X11)
+  - --share=network # access the network
+  # - --socket=pulseaudio # play sound with PulseAudio
+  - --socket=x11 # show windows using X11
+  - --env=_JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on'
+  # - --env=JAVA_HOME=/app/jre
+  # - --env=PATH=/app/bin:/usr/bin:/app/jre/bin
+
+modules:
+  - name: irpf
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 -t ${FLATPAK_DEST}/bin irpf
+      - install -d ${FLATPAK_DEST}/share/icons/hicolor/256x256/apps ${FLATPAK_DEST}/share/irpf
+      - cp -r irpf.jar pgd-updater.jar help/ lib/ lib-modulos/ ${FLATPAK_DEST}/share/irpf
+      - wrestool -x -t 14 -o irpf.ico IRPF2023.exe
+      - icotool -x -w 256 -h 256 -o ${FLATPAK_DEST}/share/icons/hicolor/256x256/apps/${FLATPAK_ID}.png irpf.ico
+
+    sources:
+      - type: archive
+        url: https://downloadirpf.receita.fazenda.gov.br/irpf/2023/irpf/arquivos/IRPF2023-1.1.zip
+        sha256: 7931112b9a826b3f17745248cfb5c417fc70b52c98553a33aa44fbd7dca555de
+
+        x-checker-data:
+          type: html
+          url: https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/download/pgd/dirpf
+          pattern: (https://downloadirpf.receita.fazenda.gov.br/irpf/2023/irpf/arquivos/IRPF([\d\.-]+\d).zip)
+
+      - type: script
+        dest-filename: irpf
+        commands:
+          - exec /app/jre/bin/java -jar /app/share/irpf/irpf.jar
+
+    modules:
+      - name: openjdk
+        buildsystem: simple
+        build-commands:
+          - /usr/lib/sdk/openjdk11/install.sh
+
+      - name: icoutils
+        sources:
+          - type: archive
+            url: https://savannah.nongnu.org/download/icoutils/icoutils-0.32.3.tar.bz2
+            sha256: 17abe02d043a253b68b47e3af69c9fc755b895db68fdc8811786125df564c6e0
+
+            x-checker-data:
+              type: anitya
+              project-id: 1360
+              url-template: https://savannah.nongnu.org/download/icoutils/icoutils-$version.tar.bz2
+
+        cleanup:
+          - '*'
+
+  - name: metadata
+    buildsystem: simple
+    build-commands:
+      - install -Dm644 -t ${FLATPAK_DEST}/share/applications ${FLATPAK_ID}.desktop
+      - install -Dm644 -t ${FLATPAK_DEST}/share/metainfo ${FLATPAK_ID}.metainfo.xml
+
+    sources:
+      - type: file
+        path: br.gov.receitafederal.IRPF.metainfo.xml
+
+      - type: file
+        path: br.gov.receitafederal.IRPF.desktop
