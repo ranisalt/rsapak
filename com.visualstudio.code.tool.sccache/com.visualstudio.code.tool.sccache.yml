@@ -1,5 +1,5 @@
 id: com.visualstudio.code.tool.sccache
-branch: stable
+branch: "22.08"
 build-extension: true
 sdk: org.freedesktop.Sdk//22.08
 sdk-extensions:
