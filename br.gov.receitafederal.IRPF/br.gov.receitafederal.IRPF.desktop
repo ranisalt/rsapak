@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=IRPF
-Exec=irpf
-Icon=br.gov.receitafederal.IRPF
-Terminal=false
-StartupNotify=false
-Categories=Application;
