@@ -21,12 +21,6 @@ modules:
       - type: git
         url: https://github.com/tibiamaps/tibia-maps-installer-linux.git
         branch: main
-        commit: 10a83551242c2e0254f542c0c17faed1c3ddd75b
-
-        x-checker-data:
-          type: git
-          tag-pattern: ^([\d.]+)$
-          is-main-source: true
 
   - name: metadata
     buildsystem: simple

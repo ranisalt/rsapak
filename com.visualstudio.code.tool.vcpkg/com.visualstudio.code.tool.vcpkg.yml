@@ -1,0 +1,122 @@
+id: com.visualstudio.code.tool.vcpkg
+branch: '22.08'
+build-extension: true
+sdk: org.freedesktop.Sdk//22.08
+runtime: com.visualstudio.code
+runtime-version: stable
+separate-locales: false
+appstream-compose: false
+
+build-options:
+  prefix: /app/tools/vcpkg
+  strip: true
+
+finish-args:
+  - --filesystem=xdg-data/vcpkg:create
+
+modules:
+  - name: vcpkg
+    buildsystem: simple
+
+    build-commands:
+      - mkdir -p /app/tools/vcpkg/share/vcpkg
+      - cp -r . /app/tools/vcpkg/share/vcpkg
+      - install -Dm755 vcpkg -t /app/tools/vcpkg/bin
+
+    sources:
+      - type: git
+        url: https://github.com/microsoft/vcpkg.git
+        tag: 2023.04.15
+        commit: 501db0f17ef6df184fcdbfbe0f87cde2313b6ab1
+
+        x-checker-data:
+          type: git
+          tag-pattern: ^([\d.]+)$
+
+      - type: script
+        dest-filename: vcpkg
+
+        commands:
+          - export VCPKG_ROOT=/app/tools/vcpkg/share/vcpkg
+          - exec /app/tools/vcpkg/share/vcpkg-tool/bin/vcpkg $@
+
+  - name: vcpkg-tool
+    buildsystem: cmake-ninja
+
+    config-opts:
+      - -DBUILD_TESTING=OFF
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_PREFIX=/app/tools/vcpkg/share/vcpkg-tool
+      - -DCMakeRC_DIR=/app/tools/vcpkg/lib/cmake/CMakeRC
+      - -Dfmt_DIR=/app/tools/vcpkg/lib/cmake/fmt
+
+    sources:
+      - type: git
+        url: https://github.com/microsoft/vcpkg-tool.git
+        tag: '2023-06-08'
+        commit: 19a3cb921a585fce63c0651f56a991a5a08bdc60
+
+        x-checker-data:
+          type: git
+          tag-pattern: ^([\d-]+)$
+
+      - type: patch
+        path: patches/find-package-config.patch
+
+    modules:
+      - name: cmakerc
+        buildsystem: simple
+
+        build-commands:
+          - install -Dm644 CMakeRC.cmake /app/tools/vcpkg/lib/cmake/CMakeRC/cmakerc-config.cmake
+
+        sources:
+          - type: file
+            url: https://github.com/vector-of-bool/cmrc/releases/download/2.0.1/CMakeRC.cmake
+            sha256: f8a595b62885f0dae7de90d1d8f7cce5f1fafa305f175c593444f5c32853a295
+
+            x-checker-data:
+              type: json
+              url: https://api.github.com/repos/vector-of-bool/cmrc/releases/latest
+              version-query: .tag_name
+              url-query: .assets[] | select(.name == "CMakeRC.cmake") | .browser_download_url
+
+        cleanup:
+          - '*'
+
+      - name: fmt
+        buildsystem: cmake-ninja
+
+        config-opts:
+          - -DBUILD_SHARED_LIBS=ON
+          - -DCMAKE_BUILD_TYPE=Release
+          - -DCMAKE_INSTALL_PREFIX=/app/tools/vcpkg
+          - -DFMT_DOC=OFF
+          - -DFMT_TEST=OFF
+
+        sources:
+          - type: git
+            url: https://github.com/fmtlib/fmt.git
+            tag: 10.0.0
+            commit: a0b8a92e3d1532361c2f7feb63babc5c18d00ef2
+
+            x-checker-data:
+              type: git
+              tag-pattern: ^([\d.]+)$
+
+        cleanup:
+          - /include
+          - /lib/cmake
+          - /lib/pkgconfig
+
+  - name: bundle-setup
+    buildsystem: simple
+
+    build-commands:
+      - install -Dm644 ${FLATPAK_ID}.metainfo.xml -t /app/tools/vcpkg/share/metainfo
+      - appstream-compose --basename=${FLATPAK_ID} --prefix=/app/tools/vcpkg --origin=flatpak
+        ${FLATPAK_ID}
+
+    sources:
+      - type: file
+        path: com.visualstudio.code.tool.vcpkg.metainfo.xml

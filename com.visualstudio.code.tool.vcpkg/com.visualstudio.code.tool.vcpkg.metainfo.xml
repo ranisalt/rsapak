@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="runtime">
+  <id>com.visualstudio.code.tool.vcpkg</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>git-lfs</name>
+  <summary>C++ library manager for Windows, Linux, and MacOS</summary>
+  <url type="homepage">https://github.com/microsoft/vcpkg/</url>
+  <releases>
+    <release version="2023-06-08" date="2023-06-11"/>
+    <release version="2023-03-14" date="2023-03-19"/>
+    <release version="2023-02-16" date="2023-02-16"/>
+  </releases>
+</component>

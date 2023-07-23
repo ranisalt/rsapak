@@ -1,0 +1,15 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 712b09c0..6ff1497a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -184,8 +184,8 @@ include(GNUInstallDirs)
+ # === Dependencies ===
+ # ====================
+ 
+-find_package(fmt REQUIRED)
+-find_package(CMakeRC REQUIRED)
++find_package(fmt CONFIG REQUIRED)
++find_package(CMakeRC CONFIG REQUIRED)
+ 
+ # === Target: locale-resources ===
+ cmrc_add_resource_library(locale-resources ALIAS cmakerc::locales NAMESPACE cmakerc ${LOCALE_RESOURCES})
