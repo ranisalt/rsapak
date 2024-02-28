@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Furmark
+Exec=furmark
+Icon=com.geeks3d.Furmark
+Terminal=false
+StartupNotify=false
+Categories=Game;
+X-PrefersNonDefaultGPU=true

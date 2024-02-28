@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>com.geeks3d.Furmark</id>
+  <name>Furmark</name>
+  <metadata_license>CC0-1.0</metadata_license>
+  <summary>GPU stress test, OpenGL and Vulkan graphics benchmark</summary>
+  <description>
+    <p>
+      FurMark is a stress test utility for graphics cards (GPUs). It's also an OpenGL
+      and Vulkan graphics benchmark. FurMark is available for Windows and Linux.
+      It is based on the proto-engine GeeXLab (https://geeks3d.com/geexlab/).
+    </p>
+
+    <p>
+      At the end of a benchmark preset (P1080, P1440 or P2160), the score can be
+      submitted to an online database. The scores page is available here:
+      https://www.gpumagick.com/scores/
+    </p>
+  </description>
+  <url type="homepage">https://geeks3d.com/furmark/</url>
+  <launchable type="desktop-id">com.geeks3d.Furmark.desktop</launchable>
+  <project_license>LicenseRef-proprietary</project_license>
+  <developer_name>Geeks3D</developer_name>
+  <releases>
+    <release version="2.1.0.2" date="2024-02-24"/>
+  </releases>
+</component>

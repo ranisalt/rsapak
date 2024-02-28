@@ -1,0 +1,6 @@
+[submodule "com.geeks3d.Furmark/shared-modules"]
+	path = com.geeks3d.Furmark/shared-modules
+	url = git@github.com:flathub/shared-modules.git
+[submodule "com.github.mehah.otclient/shared-modules"]
+	path = com.github.mehah.otclient/shared-modules
+	url = git@github.com:flathub/shared-modules.git

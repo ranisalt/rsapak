@@ -1,0 +1,59 @@
+id: com.geeks3d.Furmark
+branch: stable
+runtime: org.freedesktop.Platform
+runtime-version: '23.08'
+sdk: org.freedesktop.Sdk
+command: furmark-gui
+tags:
+  - proprietary
+
+finish-args:
+  - --device=dri
+  - --share=ipc
+  - --socket=x11
+
+modules:
+  - name: furmark
+    buildsystem: simple
+
+    build-commands:
+      - install -Dm755 -t ${FLATPAK_DEST}/bin furmark furmark-gui
+      - install -d ${FLATPAK_DEST}/share/furmark
+      - cp -r furmark2/* ${FLATPAK_DEST}/share/furmark
+
+    sources:
+      - type: archive
+        url: https://gpumagick.com/downloads/files/2024/furmark2/FurMark_2.1.0.2_linux64.zip
+        sha256: 970cfadadcf73ade2995000cfec415babd7c537da660a64cf7faf5faa15a803e
+        dest: furmark2
+
+      - type: script
+        dest-filename: furmark
+        commands:
+          - exec /app/share/furmark/furmark $@
+
+      - type: script
+        dest-filename: furmark-gui
+        commands:
+          - exec /app/share/furmark/FurMark_GUI
+
+    modules:
+      - shared-modules/glu/glu-9.json
+
+  - name: metadata
+    buildsystem: simple
+
+    build-commands:
+      - install -Dm644 -t ${FLATPAK_DEST}/share/applications ${FLATPAK_ID}.desktop
+      - install -Dm644 -t ${FLATPAK_DEST}/share/metainfo ${FLATPAK_ID}.appdata.xml
+      - install -Dm644 -t ${FLATPAK_DEST}/share/icons/hicolor/256x256/apps ${FLATPAK_ID}.png
+
+    sources:
+      - type: file
+        path: com.geeks3d.Furmark.appdata.xml
+
+      - type: file
+        path: com.geeks3d.Furmark.desktop
+
+      - type: file
+        path: com.geeks3d.Furmark.png
