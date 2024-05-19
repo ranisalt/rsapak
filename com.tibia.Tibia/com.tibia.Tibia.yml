@@ -1,9 +1,9 @@
 id: com.tibia.Tibia
 branch: stable
 runtime: org.freedesktop.Platform
-runtime-version: "22.08"
+runtime-version: '23.08'
 sdk: org.freedesktop.Sdk
-command: tibia
+command: tibia-wrapper
 tags:
   - proprietary
 
@@ -14,6 +14,8 @@ finish-args:
   - --share=network # access the network
   - --socket=pulseaudio # play sound with PulseAudio
   - --socket=x11 # show windows using X11
+  - --env=PATH=/app/bin:/usr/bin:/app/utils/bin
+  - --env=FREETYPE_PROPERTIES="truetype:interpreter-version=38"
 
 add-extensions:
   com.tibia.Tibia.Utility:
@@ -30,24 +32,35 @@ modules:
 
     build-commands:
       - install -d ${FLATPAK_DEST}/share/tibia ${FLATPAK_DEST}/utils
-      - install -Dm755 -t ${FLATPAK_DEST}/bin tibia
-      - tar xf tibia.x64.tar.gz -C ${FLATPAK_DEST}/share/tibia --strip-components 1
+      - tar xf tibia.tar.gz -C ${FLATPAK_DEST}/share/tibia --strip-components 1
       - icotool -x --icon ${FLATPAK_DEST}/share/tibia/tibia.ico
       - install -Dm644 tibia_*_16x16x32.png ${FLATPAK_DEST}/share/icons/hicolor/16x16/apps/${FLATPAK_ID}.png
       - install -Dm644 tibia_*_32x32x32.png ${FLATPAK_DEST}/share/icons/hicolor/32x32/apps/${FLATPAK_ID}.png
       - install -Dm644 tibia_*_48x48x32.png ${FLATPAK_DEST}/share/icons/hicolor/48x48/apps/${FLATPAK_ID}.png
       - install -Dm644 tibia_*_256x256x32.png ${FLATPAK_DEST}/share/icons/hicolor/256x256/apps/${FLATPAK_ID}.png
-      - touch ${FLATPAK_DEST}/share/tibia/partial-package.json
+      - install -Dm755 -t ${FLATPAK_DEST}/bin tibia-wrapper
 
     sources:
       - type: file
         url: https://static.tibia.com/download/tibia.x64.tar.gz
-        sha256: 04547867390e1348981965168fee462a82321e23c02fc56234e549b0b26c7a83
+        sha256: 894922cd1a343e2a925a90ff40d3f2ca5a02c48d9120011b539bc0f6ebd14abe
+        dest-filename: tibia.tar.gz
+
+        x-checker-data:
+          type: anitya
+          project-id: 371491
+          url-template: https://static.tibia.com/download/tibia.x64.tar.gz
 
       - type: script
-        dest-filename: tibia
+        dest-filename: tibia-wrapper
         commands:
-          - exec /app/share/tibia/Tibia
+          - "test -S $XDG_RUNTIME_DIR/discord-ipc-0 || ln -sf {app/com.discordapp.Discord,$XDG_RUNTIME_DIR}/discord-ipc-0"
+          - cp -rut ${XDG_RUNTIME_DIR} /app/share/tibia
+          - exec ${XDG_RUNTIME_DIR}/tibia/Tibia
+
+    cleanup:
+      - /app/share/tibia/start-tibia-launcher.sh
+      - /app/share/tibia/tibia.ico
 
     modules:
       - modules/icoutils.json

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=Tibia
-Exec=tibia
+Exec=tibia-wrapper
 Icon=com.tibia.Tibia
 Terminal=false
 StartupNotify=false

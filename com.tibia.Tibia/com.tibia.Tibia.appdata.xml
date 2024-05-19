@@ -10,15 +10,7 @@
   <project_license>LicenseRef-proprietary</project_license>
   <developer_name>Cipsoft GmbH</developer_name>
   <releases>
-    <release version="13.05.12694" date="2022-10-25"/>
-    <release version="13.05.12657" date="2022-10-14"/>
-    <release version="13.05.12613" date="2022-10-11"/>
-    <release version="13.05.12569" date="2022-10-05"/>
-    <release version="13.00.12539" date="2022-09-27"/>
-    <release version="13.00.12534" date="2022-09-27"/>
-    <release version="13.00.12529" date="2022-09-27"/>
-    <release version="12.91.12383" date="2022-09-08"/>
-    <release version="12.91.12329" date="2022-08-23"/>
-    <release version="12.90.12248" date="2022-08-02"/>
+    <release version="14770" date="2024-03-12"/>
+    <release version="14677" date="2024-02-28"/>
   </releases>
 </component>
